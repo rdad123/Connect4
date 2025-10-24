@@ -5,7 +5,6 @@
     Advanced Programming with Python Assignment
 """
 from GameBoard import GameBoard
-import os
 def main():
     game1 = GameBoard()
     showBoard(game1)
