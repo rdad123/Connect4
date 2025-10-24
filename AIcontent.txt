@@ -1,0 +1,22 @@
+Prompt 1(getting this error, any ideas?
+player 1, enter row to put token, must be 1-7: 4
+Traceback (most recent call last):
+  File "C:\Users\robbi\OneDrive\Documents\GitHub\Connect4\main.py", line 26, in <module>
+    main()
+  File "C:\Users\robbi\OneDrive\Documents\GitHub\Connect4\main.py", line 19, in main
+    game1.addToken(player, row)
+  File "C:\Users\robbi\OneDrive\Documents\GitHub\Connect4\GameBoard.py", line 26, in addToken
+    if self.board[r][row] == "[ ]":
+       ~~~~~~~~~~~~~^^^^^
+IndexError: only integers, slices (`:`), ellipsis (`...`), numpy.newaxis (`None`) and integer or boolean arrays are valid indices)
+response(Original problematic line (likely):
+# Gameboard.addToken(game1, player, row)
+# Should be called on the instance 'game1'
+
+Corrected line in main.py:
+# Get the input and store it as 'col_input' for clarity
+        col_input = input(f"player {player}, enter column to put token (1-7): ")
+
+        # Call the method on the instance 'game1'
+        game1.addToken(player, col_input)
+Note: this was not correct but made me realise i hadn't converted the response to a number after getting user input
