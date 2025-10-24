@@ -5,6 +5,7 @@
     Advanced Programming with Python Assignment
 """
 from GameBoard import GameBoard
+import os
 def main():
     game1 = GameBoard()
     showBoard(game1)
@@ -29,10 +30,13 @@ def main():
                 print("Invalid input. Please enter a number between 1 and 7.")
                 valid_number = False
         game1.addToken(player, row)
+
         showBoard(game1)
 
     pass
 def showBoard(game):
     print(game)
     print("1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣")
+    game.checkBoardState()
+
 main()
