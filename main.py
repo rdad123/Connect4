@@ -24,7 +24,10 @@ def main():
                 print("Invalid input. Please enter a number between 1 and 7.")
                 valid_number = False
             if(0 <= row < 7):
-                valid_number = True
+                if(game1.rowFull(row)):
+                    valid_number = True
+                else:
+                    print("Invalid input. Please enter a row that isn't full")
             else:
                 print("Invalid input. Please enter a number between 1 and 7.")
                 valid_number = False

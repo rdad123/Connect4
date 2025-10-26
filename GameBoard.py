@@ -33,6 +33,12 @@ class GameBoard:
             if placed == True:
                 break
 
+    def rowFull(self, row):
+        if(self.board[0][row] != "⬛"):
+            return False
+        else:
+            return True
+
     def checkBoardState(self):
         player1Token = "🔴"
         player2Token = "🔵"
