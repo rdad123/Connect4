@@ -39,6 +39,8 @@ class GameBoard:
 
         self.checkWinHor(player1Token, player2Token)
         self.checkWinVer(player1Token, player2Token)
+        self.checkWinDiagL(player1Token, player2Token)
+        self.checkWinDiagR(player1Token, player2Token)
 
 
     def checkWinHor(self, player1Token, player2Token):
@@ -85,31 +87,75 @@ class GameBoard:
                     self.player2Win = True
                     print("player 2 wins vertically")
 
-    #def checkWinDiagL(self):
+    def checkWinDiagL(self, player1Token, player2Token):
+        p1 = 0
+        p2 = 0
+        rows = self.getHorizontalR()
+        for i in range(6):
+            row = rows[i]
+            for x in range(6):
+                currentSlot = row[x]
+                if currentSlot == player1Token:
+                    p1 += 1
+                    p2 = 0
+                elif currentSlot == player2Token:
+                    p2 += 1
+                    p1 = 0
+                else:
+                    p1 = 0
+                    p2 = 0
+                if p1 >= 4:
+                    self.player1Win = True
+                    print("player 1 wins diagonally")
+                if p2 >= 4:
+                    self.player2Win = True
+                    print("player 2 wins diagonally")
 
-    #def checkWinDiagR(self):
 
-    #def getHorizontalR(self):
-     #   row1 = self.board[4][1], self.board[3][2], self.board[2][3], self.board[1][4]
-      #  row2 = self.board[5][1], self.board[4][2], self.board[3][3], self.board[2][4], self.board[1][5]
-       # row3 = self.board[6][1], self.board[5][2], self.board[4][3], self.board[3][4], self.board[2][5], self.board[1][6]
-        #row4 = self.board[6][2], self.board[5][3], self.board[4][4], self.board[3][5], self.board[2][6], self.board[1][7]
-        #row5 = self.board[6][3], self.board[5][4], self.board[4][5], self.board[3][6], self.board[2][7]
-       # row6 = self.board[6][4], self.board[5][5], self.board[4][6], self.board[3][7]
+    def checkWinDiagR(self, player1Token, player2Token):
+        p1 = 0
+        p2 = 0
+        rows = self.getHorizontalL()
+        for i in range(6):
+            row = rows[i]
+            for x in range(6):
+                currentSlot = row[x]
+                if currentSlot == player1Token:
+                    p1 += 1
+                    p2 = 0
+                elif currentSlot == player2Token:
+                    p2 += 1
+                    p1 = 0
+                else:
+                    p1 = 0
+                    p2 = 0
+                if p1 >= 4:
+                    self.player1Win = True
+                    print("player 1 wins diagonally")
+                if p2 >= 4:
+                    self.player2Win = True
+                    print("player 2 wins diagonally")
+    def getHorizontalR(self):
+        row1 = self.board[3][0], self.board[2][1], self.board[1][2], self.board[0][3],  "⬛",  "⬛"
+        row2 = self.board[4][0], self.board[3][1], self.board[2][2], self.board[1][3], self.board[0][4],  "⬛"
+        row3 = self.board[5][0], self.board[4][1], self.board[3][2], self.board[2][3], self.board[1][4], self.board[0][5]
+        row4 = self.board[5][1], self.board[4][2], self.board[3][3], self.board[2][4], self.board[1][5], self.board[0][6]
+        row5 = self.board[5][2], self.board[4][3], self.board[3][4], self.board[2][5], self.board[1][6],  "⬛"
+        row6 = self.board[5][3], self.board[4][4], self.board[3][5], self.board[2][6],  "⬛",  "⬛"
 
-        #rowsR = row1, row2, row3, row4, row5, row6
-        #return rowsR
+        rowsR = row1, row2, row3, row4, row5, row6
+        return rowsR
 
-    #def getHorizontalL(self):
-    #    row1 = self.board[4][6], self.board[5][5], self.board[6][4], self.board[7][3]
-    #    row2 = self.board[3][6], self.board[4][5], self.board[5][4], self.board[6][3], self.board[7][2]
-     #   row3 = self.board[2][6], self.board[3][5], self.board[4][4], self.board[5][3], self.board[6][2], self.board[7][1]
-     #   row4 = self.board[1][6], self.board[2][5], self.board[3][4], self.board[4][3], self.board[5][2], self.board[6][1]
-     #   row5 = self.board[1][5], self.board[2][4], self.board[3][3], self.board[4][2], self.board[5][1]
-     #   row6 = self.board[1][4], self.board[2][3], self.board[3][2], self.board[4][1]
+    def getHorizontalL(self):
+        row1 = self.board[5][3], self.board[4][2], self.board[3][1], self.board[2][0],  "⬛",  "⬛"
+        row2 = self.board[5][4], self.board[4][3], self.board[3][2], self.board[2][1], self.board[1][0],  "⬛"
+        row3 = self.board[5][5], self.board[4][4], self.board[3][3], self.board[2][2], self.board[1][1], self.board[0][0]
+        row4 = self.board[5][6], self.board[4][5], self.board[3][4], self.board[2][3], self.board[1][2], self.board[0][1]
+        row5 = self.board[4][6], self.board[3][5], self.board[2][4], self.board[1][3], self.board[0][2],  "⬛"
+        row6 = self.board[3][6], self.board[2][5], self.board[1][4], self.board[0][3],  "⬛",  "⬛"
 
-      #  rowsL = row1, row2, row3, row4, row5, row6
-       # return rowsL
+        rowsL = row1, row2, row3, row4, row5, row6
+        return rowsL
 
 
 
