@@ -1,0 +1,38 @@
+from GameBoard import GameBoard
+
+
+class Game:
+    def createGame(self):
+        game1 = GameBoard()
+        self.showBoard(game1)
+
+        for i in range(1, 43):
+            turn = i
+            if turn % 2 == 0:
+                player = 2
+            else:
+                player = 1
+            valid_number = False
+            while (valid_number == False):
+                row_input = input(f"player {player}, enter row to put token, must be 1-7: ")
+                try:
+                    row = int(row_input) - 1
+                except ValueError:
+                    print("Invalid input. Please enter a number between 1 and 7.")
+                    valid_number = False
+                if (0 <= row < 7):
+                    if (game1.rowFull(row)):
+                        valid_number = True
+                    else:
+                        print("Invalid input. Please enter a row that isn't full")
+                else:
+                    print("Invalid input. Please enter a number between 1 and 7.")
+                    valid_number = False
+            game1.addToken(player, row)
+
+            self.showBoard(game1)
+
+    def showBoard(self, game):
+        print(game)
+        print("1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣")
+        game.checkBoardState()

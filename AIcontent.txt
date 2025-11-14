@@ -9,7 +9,7 @@ Traceback (most recent call last):
     if self.board[r][row] == "[ ]":
        ~~~~~~~~~~~~~^^^^^
 IndexError: only integers, slices (`:`), ellipsis (`...`), numpy.newaxis (`None`) and integer or boolean arrays are valid indices)
-response(Original problematic line (likely):
+Response 1 (Original problematic line (likely):
 # Gameboard.addToken(game1, player, row)
 # Should be called on the instance 'game1'
 
@@ -20,3 +20,57 @@ Corrected line in main.py:
         # Call the method on the instance 'game1'
         game1.addToken(player, col_input)
 Note: this was not correct but made me realise i hadn't converted the response to a number after getting user input
+Prompt 2 (what is the best way to do a GUI in python?)
+Response 2 (Choosing the "best" way to create a Graphical User Interface (GUI) in Python depends heavily on your project's requirements, your personal familiarity with the frameworks, and the desired look and feel of the application.
+
+Here is a breakdown of the most popular and recommended Python GUI toolkits:
+
+🏆 Top Python GUI Frameworks
+
+Framework	Pre-installed	Recommended For	Key Features
+Tkinter	Yes (Standard Library)	Simple, small applications; Cross-platform compatibility; Beginners.	Easiest to start with; Low overhead; Good documentation.
+Qt (PyQt/PySide)	No	Complex, professional-grade applications; Desktop applications; Data visualization tools.	Excellent widget library; Mature, battle-tested; Uses an intuitive design tool (Qt Designer).
+Kivy	No	Multi-touch applications; Cross-platform including mobile (iOS/Android) and desktop.	Highly customizable graphics; Uses a KV language for layout separation; Open-source.
+wxPython	No	Native look-and-feel applications; Applications needing tight integration with the host OS.	Wraps the native operating system's GUI libraries, offering a truly native feel.
+
+🛠️ Framework Deep Dive
+
+1. Tkinter: The Default Choice
+
+Tkinter is generally the best starting point because it is included with standard Python installations, meaning no extra installation is required.
+
+    Pros: It's fast for simple UIs, requires no dependencies, and is cross-platform.
+
+    Cons: The default widgets can look a bit dated compared to modern applications, though themed extensions (like ttk) help.
+
+When to use it: When you need a quick utility or a simple application where a modern aesthetic isn't the main concern.
+
+2. PyQt / PySide (The Qt Framework)
+
+Qt is arguably the most powerful and feature-rich option for professional desktop applications.
+
+    PyQt and PySide (the official Qt Python binding) are very similar. PySide is generally preferred now because it uses the more permissive LGPL license, making it better for commercial projects.
+
+    Pros: Industry-standard quality, vast array of widgets, and the Qt Designer tool lets you visually drag-and-drop your UI instead of writing all the layout code.
+
+    Cons: Larger size, steeper learning curve than Tkinter.
+
+When to use it: For enterprise software, large data science dashboards, or any application where a highly polished, feature-rich interface is required.
+
+3. Kivy: The Mobile-First Option
+
+Kivy is unique as it is primarily designed for rapid development of multi-touch applications.
+
+    Pros: Runs on almost anything (Windows, macOS, Linux, Android, iOS), excellent for custom, game-like, or touch-based UIs.
+
+    Cons: Does not use native widgets, so the look is non-native and uniform across all platforms.
+
+When to use it: When your application needs to be deployed on mobile devices or requires extensive custom graphics and multi-touch support.
+
+💡 Recommendation for Beginners
+
+Start with Tkinter. Since it is pre-installed, you can begin immediately. It will teach you the fundamental concepts of GUI programming, such as widgets, event handling, and layout managers.
+
+Once you outgrow Tkinter or need a more professional look, move on to PySide6 (Qt). It offers the best balance of power, community support, and professional-grade tools.
+
+Would you like an example of a simple "Hello World" application using Tkinter to get you started?)
