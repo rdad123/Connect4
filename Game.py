@@ -2,37 +2,49 @@ from GameBoard import GameBoard
 
 
 class Game:
-    def createGame(self):
-        game1 = GameBoard()
-        self.showBoard(game1)
 
-        for i in range(1, 43):
-            turn = i
-            if turn % 2 == 0:
-                player = 2
+    def __init__(self):
+        self.board_manager = GameBoard()
+        self.current_player_num = 1
+        self.game_in_progress = True
+        self.winner = None
+
+    def reset_game(self):
+        self.board_manager = GameBoard()
+        self.current_player_num = 1
+        self.game_in_progress = True
+        self.winner = None
+
+    def make_move(self, col_index):
+        if not self.game_in_progress:
+            return False
+
+        row_placed = self.board_manager.addToken(self.current_player_num, col_index)
+
+        if row_placed != -1:
+            self.board_manager.checkBoardState()
+
+            if self.board_manager.getWinP1():
+                self.winner = 1
+                self.game_in_progress = False
+            elif self.board_manager.getWinP2():
+                self.winner = 2
+                self.game_in_progress = False
             else:
-                player = 1
-            valid_number = False
-            while (valid_number == False):
-                row_input = input(f"player {player}, enter row to put token, must be 1-7: ")
-                try:
-                    row = int(row_input) - 1
-                except ValueError:
-                    print("Invalid input. Please enter a number between 1 and 7.")
-                    valid_number = False
-                if (0 <= row < 7):
-                    if (game1.rowFull(row)):
-                        valid_number = True
-                    else:
-                        print("Invalid input. Please enter a row that isn't full")
-                else:
-                    print("Invalid input. Please enter a number between 1 and 7.")
-                    valid_number = False
-            game1.addToken(player, row)
+                self.current_player_num = 2 if self.current_player_num == 1 else 1
 
-            self.showBoard(game1)
+            return True
 
-    def showBoard(self, game):
-        print(game)
-        print("1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣")
-        game.checkBoardState()
+        return False
+
+    def get_board_state(self):
+        return self.board_manager.getBoard()
+
+    def get_current_player_token(self):
+        return self.board_manager.PLAYER1_TOKEN if self.current_player_num == 1 else self.board_manager.PLAYER2_TOKEN
+
+    def get_winner(self):
+        return self.winner
+
+    def is_in_progress(self):
+        return self.game_in_progress

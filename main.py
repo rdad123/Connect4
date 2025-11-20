@@ -5,7 +5,6 @@
     Advanced Programming with Python Assignment
 """
 import tkinter as tk
-from Game import Game
 from GUI import GUI
 from GameBoard import GameBoard
 def main():
@@ -13,7 +12,5 @@ def main():
         root = tk.Tk()
         app = GUI(root)
         root.mainloop()
-    game1 = Game()
-    game1.createGame()
 
 main()

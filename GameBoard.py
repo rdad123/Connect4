@@ -8,6 +8,10 @@ import numpy as np
 class GameBoard:
     player1Win = False
     player2Win = False
+
+    EMPTY_TOKEN = "⬛"
+    PLAYER1_TOKEN = "🔴"
+    PLAYER2_TOKEN = "🔵"
     def __init__(self):
         self.board = np.array([
             ["⬛", "⬛", "⬛", "⬛", "⬛", "⬛", "⬛"],
@@ -164,7 +168,15 @@ class GameBoard:
         return rowsL
 
 
+    def getBoard(self):
+        print(self.board)
+        return self.board
 
+    def getWinP1(self):
+        return self.player1Win
+
+    def getWinP2(self):
+        return self.player2Win
 
     def __repr__(self):
         return '\n' + '\n'.join([' '.join(row) for row in self.board])
