@@ -28,14 +28,15 @@ class GameBoard:
         else:
             token = "🔵"
 
+        placed_row = -1
+
         for r in range(5, -1, -1):
             if self.board[r][row] == "⬛":
                 self.board[r][row] = token
-                placed = True
-            else:
-                placed = False
-            if placed == True:
+                placed_row = r
                 break
+
+        return placed_row
 
     def rowFull(self, row):
         if(self.board[0][row] != "⬛"):

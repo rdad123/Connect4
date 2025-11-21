@@ -206,6 +206,9 @@ class GUI:
         self._toggle_controls(True)
         self.log_message(f"Game started in {game_mode} mode.\nPlayer {self.game.current_player_num} {self.game.get_current_player_token()}'s turn. Select a column to drop a piece.")
 
+        if difficulty > 0 and self.game.current_player_num == 2:
+            self._handle_ai_turn()
+
     def _toggle_controls(self, enable):
         state = 'normal' if enable else 'disabled'
         for btn in self.drop_buttons:

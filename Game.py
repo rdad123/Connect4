@@ -23,9 +23,9 @@ class Game:
         if difficulty is not None:
             self.DIFFICULTY = difficulty
         else:
-            self.DIFFICULTY = 0  #
+            self.DIFFICULTY = 0
 
-        self.current_player_num = 1
+        self.current_player_num = randrange(1, 3)
         self.game_in_progress = True
         self.winner = None
 
