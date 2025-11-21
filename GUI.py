@@ -87,20 +87,64 @@ class GUI:
         PVP = ttk.Button(
             button_frame,
             text="2 Player",
-            command=lambda: self._create_GameView("2 Player")
+            command=lambda: self._create_GameView("2 Player", 0)
         )
         PVP.pack(side=tk.LEFT, padx=15, ipadx=10, ipady=5)
 
         PVE = ttk.Button(
             button_frame,
             text="VS AI",
-            command=lambda: self._create_GameView("VS AI")
+            command=self._create_DifficultySelect
         )
         PVE.pack(side=tk.LEFT, padx=15, ipadx=10, ipady=5)
 
-    def _create_GameView(self, game_mode):
+    def _create_DifficultySelect(self):
+        """Creates a screen for selecting the AI difficulty."""
+        self._clear_window()
+
+        self.master.grid_rowconfigure(0, weight=0)
+        self.master.grid_rowconfigure(1, weight=0)
+        self.master.grid_rowconfigure(2, weight=1)
+
+        ttk.Label(
+            self.master,
+            text="Select AI Difficulty",
+            font=('Inter', 20, 'bold'),
+            foreground='#333333'
+        ).grid(row=0, column=0, pady=(150, 30), sticky="s")
+
+        button_frame = ttk.Frame(self.master)
+        button_frame.grid(row=1, column=0, pady=10, sticky="n")
+
+        ttk.Button(
+            button_frame,
+            text="Easy (Random)",
+            command=lambda: self._create_GameView("VS AI (Easy)", 1)
+        ).pack(side=tk.LEFT, padx=15, ipadx=10, ipady=5)
+
+        ttk.Button(
+            button_frame,
+            text="Medium",
+            command=lambda: self._create_GameView("VS AI (Medium)", 2)
+        ).pack(side=tk.LEFT, padx=15, ipadx=10, ipady=5)
+
+        ttk.Button(
+            button_frame,
+            text="Hard",
+            command=lambda: self._create_GameView("VS AI (Hard)", 3)
+        ).pack(side=tk.LEFT, padx=15, ipadx=10, ipady=5)
+
+        ttk.Button(
+            self.master,
+            text="< Back",
+            command=self._create_MainMenu
+        ).grid(row=2, column=0, pady=(50, 10), sticky="n")
+
+    def _create_GameView(self, game_mode, difficulty):
         self._clear_window()
         self.game_mode = game_mode
+
+        self.game.reset_game(difficulty)
 
         self.master.grid_rowconfigure(0, weight=0)
         self.master.grid_rowconfigure(1, weight=1)
@@ -155,8 +199,6 @@ class GUI:
         self.board_canvas.grid(row=3, column=0, padx=20, pady=(0, 20), sticky="nsew")
 
         self.board_canvas.bind("<Configure>", self._on_canvas_resize)
-
-        self.game.reset_game()
 
         self.master.update_idletasks()
         self._update_board_display()
@@ -222,9 +264,42 @@ class GUI:
                     self.board_canvas.create_image(x1, y1, anchor=tk.NW, image=image_to_draw)
 
 
+    def _handle_game_end(self):
+        winner = "Player 1 🔴" if self.game.get_winner() == 1 else "Player 2 🔵"
+        self.log_message(f"\n*** GAME OVER! {winner} WINS! ***")
+        self._toggle_controls(False)
+
+    def _handle_ai_turn(self):
+        self._toggle_controls(False)
+        self.log_message("AI is thinking...")
+
+        self.master.after(500, self._execute_ai_move)
+
+    def _execute_ai_move(self):
+        ai_move_col = self.game.AI_Move()
+
+        if ai_move_col != -1:
+            self._update_board_display()
+            self.log_message(f"> AI {self.game.board_manager.PLAYER2_TOKEN} dropped piece in Column {ai_move_col + 1}.")
+
+            if self.game.get_winner():
+                self._handle_game_end()
+            else:
+                self._toggle_controls(True)
+                next_player_token = self.game.get_current_player_token()
+                self.log_message(f"> It is now Player {self.game.current_player_num} {next_player_token}'s turn.")
+        else:
+            self.log_message("AI failed to make a move or board is full.")
+            self._toggle_controls(True)
+
+
     def on_column_select(self, column_index):
         if not self.game.is_in_progress():
             self.log_message("\n*** Game is over! Go back to menu to start a new game. ***")
+            return
+
+        if self.game.DIFFICULTY != 0 and self.game.current_player_num != 1:
+            self.log_message("> It is the AI's turn! Please wait.")
             return
 
         mover_num = self.game.current_player_num
@@ -234,17 +309,15 @@ class GUI:
 
         if move_successful:
             self.log_message(f"> Player {mover_num} {mover_token} dropped piece in Column {column_index + 1}.")
-
             self._update_board_display()
 
             if self.game.get_winner():
-                winner = "Player 1 🔴" if self.game.get_winner() == 1 else "Player 2 🔵"
-                self.log_message(f"\n*** GAME OVER! {winner} WINS! ***")
-                self._toggle_controls(False)
+                self._handle_game_end()
+            elif self.game.DIFFICULTY != 0:
+                self._handle_ai_turn()
             else:
                 next_player_token = self.game.get_current_player_token()
                 self.log_message(f"> It is now Player {self.game.current_player_num} {next_player_token}'s turn.")
 
         else:
             self.log_message(f"> Column {column_index + 1} is full! Try another column.")
-
